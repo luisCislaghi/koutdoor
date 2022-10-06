@@ -7,12 +7,13 @@ import { EditModal } from './modal';
 import TextTicker from 'react-native-text-ticker';
 
 const DEFAULT_CONFIG = {
-  text: '❤ 당신을 사랑합니다 ❤',
+  text: 'TEXTão BAse',
   textStyle: {
-    fontSize: 100,
-    backgroundColor: 'white',
+    fontSize: 120,
+    backgroundColor: 'transparent',
     color: '#dd0011',
   },
+  speed: 3000,
   backgroundProps: {
     background: '#333',
   },
@@ -58,7 +59,7 @@ const Outdoor = () => {
           setConfig={setConfig}
         />
         <TextTicker
-          duration={3000}
+          duration={config.speed}
           bounce={false}
           scroll={false}
           easing={Easing.linear}

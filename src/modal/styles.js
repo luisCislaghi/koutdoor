@@ -10,7 +10,6 @@ export const Container = styled.View`
 `;
 
 export const Modal = styled(RNModal)`
-  /* flex: 1; */
   background-color: #e17486;
 `;
 
