@@ -11,11 +11,14 @@ export const Container = styled.View`
 
 export const Modal = styled(RNModal)`
   /* flex: 1; */
-  background-color: pink;
+  background-color: #e17486;
 `;
 
 export const Title = styled.Text`
   color: ${color.dark};
   text-align: center;
   margin-bottom: 20px;
+`;
+export const Text = styled.Text`
+  color: ${color.dark};
 `;

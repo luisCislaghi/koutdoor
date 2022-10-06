@@ -2,66 +2,84 @@ import React, { useEffect, useState } from 'react';
 import { OrientationType } from 'react-native-orientation-locker';
 import { Dimensions, Easing } from 'react-native';
 import Orientation from 'react-native-orientation-locker';
-import { Container, Text, LockButton, LockButtonText } from './styles';
+import { BigContainer, Container, Text, LockButton, LockButtonText } from './styles';
 import { EditModal } from './modal';
 import TextTicker from 'react-native-text-ticker';
 
+const DEFAULT_CONFIG = {
+  text: '❤ 당신을 사랑합니다 ❤',
+  textStyle: {
+    fontSize: 100,
+    backgroundColor: 'white',
+    color: '#dd0011',
+  },
+  backgroundProps: {
+    background: '#333',
+  },
+};
+
 const Outdoor = () => {
-  const [config, setConfig] = useState({
-    text: '❤ 당신을 사랑합니다 ❤',
-    textStyle: {
-      fontSize: 100,
-      backgroundColor: 'white',
-      color: '#dd0011',
-    },
-    backgroundProps: {
-      background: '#333',
-    },
-  });
+  const [config, setConfig] = useState(DEFAULT_CONFIG);
 
   const [modalVisible, setModalVisible] = useState(false);
-  const [width, setWidth] = useState(Dimensions.get('window').width);
+  // const [screen, setScreen] = useState([
+  //   Dimensions.get('window').width,
+  //   Dimensions.get('window').height,
+  // ]);
+  const screen = [Dimensions.get('window').width, Dimensions.get('window').height];
 
   // Orientation.addOrientationListener((o: OrientationType) => {
-  // if (o === 'PORTRAIT' || o === 'PORTRAIT-UPSIDEDOWN') setWidth(Dimensions.get('window').width);
-  // else setWidth(Dimensions.get('window').width);
-  // setWidth();
+  //   if (o === 'PORTRAIT' || o === 'PORTRAIT-UPSIDEDOWN') setWidth(Dimensions.get('window').width);
+  //   else setWidth(Dimensions.get('window').width);
+  //   setWidth();
   // });
 
-  useEffect(() => {
-    if (modalVisible) Orientation.lockToPortrait();
-    else Orientation.lockToLandscape();
-  }, [modalVisible]);
+  // useEffect(() => {
+  //   if (modalVisible) Orientation.lockToPortrait();
+  //   else Orientation.lockToLandscape();
+  // }, [modalVisible]);
 
   return (
-    <Container {...config.backgroundProps}>
-      <EditModal
-        modalVisible={modalVisible}
-        setModalVisible={setModalVisible}
-        config={config}
-        setConfig={setConfig}
-      />
-      <TextTicker
-        duration={3000}
-        bounce={false}
-        scroll={false}
-        easing={Easing.linear}
-        repeatSpacer={width * 0.5}
+    <BigContainer {...config.backgroundProps}>
+      <Container
+        width={screen[1]}
+        height={screen[0]}
         style={{
-          width: width,
-          ...config.textStyle,
-          transform: [{ rotate: '90deg' }],
+          transform: [
+            { rotate: '90deg' },
+            { translateY: screen[0] / 3 - 1 },
+            { translateX: screen[0] / 3 - 1 },
+          ],
         }}>
-        {config.text}
-      </TextTicker>
-      <Text>{width}</Text>
-      <LockButton
-        onPress={() => {
-          setModalVisible(true);
-        }}>
-        <LockButtonText>{modalVisible ? '🔓' : '🔒'}</LockButtonText>
-      </LockButton>
-    </Container>
+        <EditModal
+          modalVisible={modalVisible}
+          setModalVisible={setModalVisible}
+          config={config}
+          setConfig={setConfig}
+        />
+        <TextTicker
+          duration={3000}
+          bounce={false}
+          scroll={false}
+          easing={Easing.linear}
+          repeatSpacer={screen[1] * 0.5}
+          style={{
+            width: screen[1],
+            ...config.textStyle,
+          }}>
+          {config.text}
+        </TextTicker>
+        <Text>
+          {screen[0].toFixed(0)} - {screen[1].toFixed(0)}
+        </Text>
+        <LockButton
+          onPress={() => {
+            setModalVisible(true);
+          }}>
+          <LockButtonText>{modalVisible ? '🔓' : '🔒'}</LockButtonText>
+        </LockButton>
+      </Container>
+    </BigContainer>
   );
 };
 
